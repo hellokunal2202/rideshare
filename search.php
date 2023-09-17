@@ -175,6 +175,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
         // Get trip user id
         $person_id = $row['user_id'];
 
+
         // Run query to get user details
         $sql2 = "SELECT * FROM users WHERE user_id='$person_id' LIMIT 1";
         $result2 = mysqli_query($link, $sql2);
@@ -293,22 +294,25 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
                     
                     if (isset($_SESSION['user_id'])) 
                     {
-                        echo $person_id;
-                        echo $_SESSION['user_id'];
+                        // echo $person_id;
+                        $trip_id = $row['trip_id'];
+
+                        // echo $trip_id;
+                        // echo $_SESSION['user_id'];
               
 ?>                      
                     <!-- <button type='button' class='btn btn-lg green signup'><a href='request_query.php?id=<?php echo $row['user_id'],$person_id ?>'>Send request</a></button> -->
-                    <button class='btn btn-lg green signup' id='sendReq' onclick='sendAction(1,"<?php echo $person_id ?>")'>Send Request</button>
+                    <button class='btn btn-lg green signup' id='sendReq' onclick='sendAction(1,"<?php echo $person_id ?>","<?php echo $trip_id ?>")'>Send Request</button>
                     <span id="req_send_alert"></span>
 <script>
-function sendAction(constant,driver_id){
+function sendAction(constant,driver_id,trip_id){
     alert("Request Sent !");
     btn = document.getElementById('sendReq');
     spn = document.getElementById('req_send_alert');
     btn.style.display="none";
     spn.innerHTML = "Request Sent !";
 
-   $.post(`request_query.php?action=sendReq&id=${driver_id}`,function(res){   })
+   $.post(`request_query.php?action=sendReq&id=${driver_id}&trip_id=${trip_id}`,function(res){   })
 
 
 } 

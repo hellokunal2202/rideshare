@@ -41,7 +41,7 @@ if($count == 1){
             <li><a href="notification.php">Request</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">
+                <!-- <li><a href="#">
                     <?php
                         if(empty($picture)){
                             echo "<div class='image_preview'><img class='previewing2' src='profilepicture/noimage.jpg' /></div>";
@@ -51,7 +51,7 @@ if($count == 1){
 
                     ?>
                   </a>
-                </li>
+                </li> -->
               <li><a href="#"><b><?php echo $username?></b></a></li>
             <li><a href="index.php?logout=1">Log out</a></li>
           </ul>
