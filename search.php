@@ -148,8 +148,19 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
                     $time = implode("-", $array)." at " .$row['time'].".";
                 }
             }
+
             
             //print trip
+            // $sql3 = "SELECT * FROM `riderequest` WHERE trip_id='$trip_id' AND user_id='$user_id'";
+            // $result3 = mysqli_query($link, $sql3);
+            
+            
+            // if (isset($_SESSION['user_id']) && mysqli_num_rows($result3)==0) 
+            $verification_query = "SELECT * FROM `driver` WHERE driver_id='$person_id'";
+            $verification_result = mysqli_query($link, $verification_query);
+            $verification_result = mysqli_fetch_array($verification_result);
+            $verification_status = $verification_result['verified'];
+
             echo 
              "<h3 class='row'>
                 <div class='col-sm-3 journey' >
@@ -171,7 +182,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
                         </span> 
                         $destination.
                     </div>
-                    
+                    <span>$verification_status</span>
                     <div class='time'>
                         $time
                     </div>
