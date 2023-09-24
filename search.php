@@ -17,7 +17,7 @@ $departure = $_POST["departure"];
 $destination = $_POST["destination"];
 $tripPrice='';
 $moreInformation='';
-
+$user_id = $_SESSION['user_id'];
 
 
 
@@ -43,7 +43,8 @@ if ($errors) {
 }
 
 
-$sql = "SELECT * FROM carsharetrips WHERE departure='$departure' AND destination='$destination'";
+// $sql = "SELECT * FROM carsharetrips WHERE departure='$departure' AND destination='$destination'";
+$sql = "SELECT * FROM carsharetrips WHERE departure='$departure' AND destination='$destination' AND user_id!='$user_id' ORDER BY date ASC, time ASC LIMIT 0, 10";
 $result = mysqli_query($link, $sql);
 if (!$result) {
     echo "ERROR: Unable to execute: $sql. " . mysqli_error($link);
@@ -65,9 +66,8 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 {
 
     // Check if the trip date is in the past
-    if ($row['seatsavailable'] <= 0) {
-        echo "<div class='alert alert-info noresults'>There are no journeys matching your search!</div>";
-        exit;
+    if ($row['seatsavailable'] <= 0 ) {
+        continue;
     }
 
     $dateOK = 1;
@@ -171,6 +171,7 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
                         </span> 
                         $destination.
                     </div>
+                    
                     <div class='time'>
                         $time
                     </div>
@@ -203,18 +204,22 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
                         &#9742: $phonenumber
                     </div>";
       
-                
+
+                    $trip_id = $row['trip_id'];
+                    $sql3 = "SELECT * FROM `riderequest` WHERE trip_id='$trip_id' AND user_id='$user_id'";
+                    $result3 = mysqli_query($link, $sql3);
                     
-                    if (isset($_SESSION['user_id'])) 
+                    
+                    if (isset($_SESSION['user_id']) && mysqli_num_rows($result3)==0) 
                     {
                         // echo $person_id;
                         $trip_id = $row['trip_id'];
 
                         // echo $trip_id;
                         // echo $_SESSION['user_id'];
+
               
 ?>                      
-                    <!-- <button type='button' class='btn btn-lg green signup'><a href='request_query.php?id=<?php echo $row['user_id'],$person_id ?>'>Send request</a></button> -->
                     <button class='btn btn-lg green signup' id='sendReq' onclick='sendAction(1,"<?php echo $person_id ?>","<?php echo $trip_id ?>")'>Send Request</button>
                     <span id="req_send_alert"></span>
 <script>
@@ -234,6 +239,9 @@ function sendAction(constant,driver_id,trip_id){
                     
 <?php
         
+                    }
+                    else{
+                        echo "<button class='btn btn-lg green signup' >Request Already sent</button>";
                     }
           
             echo "</div>
