@@ -174,6 +174,9 @@ if($count == 1){
                     <li><a href="#">Help</a></li>
                     <li><a href="#">Contact us</a></li>
                       <li class="active"><a href="#">My Trips</a></li>
+                      <li><a href="notification.php">Request Recived</a></li>
+            <li><a href="rider_request.php">Request sent</a></li>
+
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
                       <li><a href="#">
@@ -204,6 +207,9 @@ if($count == 1){
                       <button type="button" class="btn green btn-lg" data-target="#addtripModal" data-toggle="modal">
                       Create trips   <!-- #addtripModal -->
                       </button>
+                      <button type="button" class="btn green btn-lg" data-target="#verifyModal" data-toggle="modal">
+                      verify yourself   <!-- #addtripModal -->
+                      </button>
                   </div>
                   <div id="mytrips" class="trips">
                       <!--Ajax Call to php file-->
@@ -212,7 +218,48 @@ if($count == 1){
 
           </div>
       </div>
-      
+      <form method="post" id="verifyform" >
+        <div class="modal" id="verifyModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button class="close" data-dismiss="modal">
+                    &times;
+                  </button>
+                  <h4 id="myModalLabel">
+                    New trip:
+                  </h4>
+              </div>
+              <div class="modal-body">
+                  
+                  <!--Error message from PHP file-->
+             <div id="result3"></div>
+                  
+                  <!--Google Map-->
+                
+                  
+                <div class="form-group">
+                <label for="license_number" >License Number:</label>
+                        <input type="text" class="form-control" id="license_number" name="license_number" required>               
+                 </div>
+                <div class="form-group">
+                    <label for="car_number" >Car Number:</label>
+                    <input type="text" class="form-control" id="car_number" name="car_number" required>
+                    </div>
+                <div class="form-group">
+                    <label for="car_model" >Car Model:</label>
+                    <input type="text" class="form-control" id="car_model" name="car_model" required>                </div> 
+                 
+              
+              </div>
+              <div class="modal-footer">
+                <input class="btn btn-primary" name="verify" type="submit" value="verify">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+      </div>
+      </div>
+      </form>
       <!--Add a trip form // create trip-->
       <form method="post" id="addtripform">
         <div class="modal" id="addtripModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -232,7 +279,7 @@ if($count == 1){
                   <div id="result"></div>
                   
                   <!--Google Map-->
-                  <div id="googleMap"></div>
+                
                   
                 <div class="form-group">
                     <label for="departure" class="sr-only">Departure:</label>

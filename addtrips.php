@@ -80,7 +80,7 @@ if (!empty($errors)) {
 
     // Prepare and execute the SQL query
     if ($regular == "Y") {
-        $sql = "INSERT INTO $tbl_name (`user_id`,`departure`, `destination`, `price`, `seats_available`, `regular`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`, `time`) 
+        $sql = "INSERT INTO $tbl_name (`user_id`,`departure`, `destination`, `price`, `seatsavailable`, `regular`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`, `sunday`, `time`) 
                 VALUES ('$user_id', '$departure','$destination','$price','$seatsavailable','$regular','$monday','$tuesday','$wednesday','$thursday','$friday','$saturday','$sunday','$time')";
     } else {
         $sql = "INSERT INTO $tbl_name (`user_id`,`departure`, `destination`, `price`, `seatsavailable`, `regular`, `date`, `time`) 

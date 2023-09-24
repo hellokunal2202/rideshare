@@ -136,20 +136,24 @@ $activationKey = bin2hex(openssl_random_pseudo_bytes(16));
 
 //Insert user details and activation code in the users table
 
-$sql = "INSERT INTO users (`username`, `email`, `password`, `activation`, `first_name`, `last_name`, `phonenumber`, `gender`, `moreinformation`) VALUES ('$username', '$email', '$password', '$activationKey', '$firstname', '$lastname', '$phonenumber', '$gender', '$moreinformation')";
+$sql = "INSERT INTO users (`username`, `email`, `password`, `activation`, `first_name`, `last_name`, `phonenumber`, `gender`, `moreinformation`) VALUES ('$username', '$email', '$password', 'activated', '$firstname', '$lastname', '$phonenumber', '$gender', '$moreinformation')";
 $result = mysqli_query($link, $sql);
 if(!$result){
     echo '<div class="alert alert-danger">There was an error inserting the users details in the database!</div>'; 
     exit;
 }
+else
+{
+    echo "alert('successfully registered')";
+}
 
 //Send the user an email with a link to activate.php with their email and activation code
-$message = "Please click on this link to activate your account:\n\n";
-$message .= "http://carsharingwebsitefinal.thecompletewebhosting.com/activate.php?email=" . urlencode($email) . "&key=$activationKey";
-if(mail($email, 'Confirm your Registration', $message, 'From:'.'abedinz427@gmail.com')){
-       echo "<div class='alert alert-success'>Thank for your registring! A confirmation email has been sent to $email. Please click on the activation link to activate your account.</div>";
-}else{
-    $errors.="error";
-}
+// $message = "Please click on this link to activate your account:\n\n";
+// $message .= "http://carsharingwebsitefinal.thecompletewebhosting.com/activate.php?email=" . urlencode($email) . "&key=$activationKey";
+// if(mail($email, 'Confirm your Registration', $message, 'From:'.'abedinz427@gmail.com')){
+//        echo "<div class='alert alert-success'>Thank for your registring! A confirmation email has been sent to $email. Please click on the activation link to activate your account.</div>";
+// }else{
+//     $errors.="error";
+// }
         
         ?>

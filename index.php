@@ -26,7 +26,7 @@ include('remember.php');
       <style>
           /*margin top for myContainer*/
           #myContainer {
-              margin-top: 50px;
+             
               text-align: center;
               color: black;
           }

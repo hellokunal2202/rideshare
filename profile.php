@@ -109,6 +109,10 @@ if($count == 1){
                     <li><a href="#">Help</a></li>
                     <li><a href="#">Contact us</a></li>
                       <li><a href="mainpageloggedin.php">My Trips</a></li>
+                      <li><a href="notification.php">Request Recived</a></li>
+            <li><a href="rider_request.php">Request sent</a></li>
+
+
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
                       <li><a href="#">

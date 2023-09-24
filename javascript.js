@@ -60,7 +60,7 @@ $("#loginform").submit(function(event) {
             console.log(data); // Check what data is received from the server
             if (data) {
                 // Redirect to mainpageloggedin.php on successful login
-                window.location = "mainpageloggedin.php";
+                window.location = "index.php";
             } else {
                 $('#loginmessage').html(data);
                 // Show message
@@ -151,52 +151,39 @@ $("#searchform").submit(function(event){
    
     
 });
-                        
-    //define functions
-    // function getSearchTripDepartureCoordinates(){
-    //     geocoder.geocode(
-    //         {
-    //             'address' : document.getElementById("departure").value
-    //         },
-    //         function(results, status){
-    //             if(status == google.maps.GeocoderStatus.OK){
-    //                 departureLongitude = results[0].geometry.location.lng();
-    //                 departureLatitude = results[0].geometry.location.lat();
-    //                 data.push({name:'departureLongitude', value: departureLongitude});
-    //                 data.push({name:'departureLatitude', value: departureLatitude});
-    //                 getSearchTripDestinationCoordinates();
-    //             }else{
-    //                 getSearchTripDestinationCoordinates();
-    //             }
-
-    //         }
-    //     );
-    // }
-
-    // function getSearchTripDestinationCoordinates(){
-    //     geocoder.geocode(
-    //         {
-    //             'address' : document.getElementById("destination").value
-    //         },
-    //         function(results, status){
-    //             if(status == google.maps.GeocoderStatus.OK){
-    //                 destinationLongitude = results[0].geometry.location.lng();
-    //                 destinationLatitude = results[0].geometry.location.lat();
-    //                 data.push({name:'destinationLongitude', value: destinationLongitude});
-    //                 data.push({name:'destinationLatitude', value: destinationLatitude});
-    //                 submitSearchTripRequest();
-    //             }else{
-    //                 submitSearchTripRequest();
-    //             }
-
-    //         }
-    //     );
-
-    // }
+// Bind the click event to the class .send-request-btn
 
 
 
+// Use a class selector for the button
+function btn() {
+    console.log('Button clicked');
+    const tripId = $(this).data('trip-id');
+    const receiverId = $(this).data('receiver-id');
+// data=$(this).serializeArray)
+    // Make an AJAX request to send the request
+    $.ajax({
+        type: 'POST',
+        url: 'trip_request.php', // Replace with the actual URL of your PHP script
+        data: {
+            trip_id: tripId,
+            receiver_id: receiverId
+        },
+        success: function (response) {
+            // Handle the response from the server
+            if (response.success) {
+                // Request sent successfully
+                alert('Request sent successfully!');
+            } else {
+                // Error sending request
+                alert('Error sending request: ' + response.message);
+            }
+        },
+        error: function () {
+            // Handle AJAX errors here
+            alert('An error occurred while sending the request.');
+        }
+    });
+};
 
-
-
-
+   

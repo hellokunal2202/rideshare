@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start the session
+// session_start(); // Start the session
 
 if(isset($_SESSION['user_id']) && isset($_GET['logout']) && $_GET['logout'] == 1){
     session_destroy(); // Destroy the session data

@@ -20,69 +20,6 @@ $moreInformation='';
 
 
 
-// Check coordinates
-// if (!isset($_POST["departureLatitude"]) || !isset($_POST["departureLongitude"])) {
-//     $errors .= $invaliddeparture;
-// } else {
-//     $departureLatitude = $_POST["departureLatitude"];
-//     $departureLongitude = $_POST["departureLongitude"];
-// }
-
-// if (!isset($_POST["destinationLatitude"]) || !isset($_POST["destinationLongitude"])) {
-//     $errors .= $invaliddestination;
-// } else {
-//     $destinationLatitude = $_POST["destinationLatitude"];
-//     $destinationLongitude = $_POST["destinationLongitude"];
-// }
-
-// Set search radius
-// $searchRadius = 10;
-
-// Calculate min and max coordinates for departure
-// $deltaLongitudeDeparture = $searchRadius * 360 / (24901 * cos(deg2rad($departureLatitude)));
-// $minLongitudeDeparture = $departureLongitude - $deltaLongitudeDeparture;
-// $maxLongitudeDeparture = $departureLongitude + $deltaLongitudeDeparture;
-
-// if ($minLongitudeDeparture < -180) {
-//     $minLongitudeDeparture += 360;
-// }
-// if ($maxLongitudeDeparture > 180) {
-//     $maxLongitudeDeparture -= 360;
-// }
-
-// Calculate min and max coordinates for destination
-// $deltaLongitudeDestination = $searchRadius * 360 / (24901 * cos(deg2rad($destinationLatitude)));
-// $minLongitudeDestination = $destinationLongitude - $deltaLongitudeDestination;
-// $maxLongitudeDestination = $destinationLongitude + $deltaLongitudeDestination;
-
-// if ($minLongitudeDestination < -180) {
-//     $minLongitudeDestination += 360;
-// }
-// if ($maxLongitudeDestination > 180) {
-//     $maxLongitudeDestination -= 360;
-// }
-
-// Calculate min and max latitude for departure and destination
-// $deltaLatitude = $searchRadius * 180 / 12430;
-// $minLatitudeDeparture = $departureLatitude - $deltaLatitude;
-// $maxLatitudeDeparture = $departureLatitude + $deltaLatitude;
-
-// if ($minLatitudeDeparture < -90) {
-//     $minLatitudeDeparture = -90;
-// }
-// if ($maxLatitudeDeparture > 90) {
-//     $maxLatitudeDeparture = 90;
-// }
-
-// $minLatitudeDestination = $destinationLatitude - $deltaLatitude;
-// $maxLatitudeDestination = $destinationLatitude + $deltaLatitude;
-
-// if ($minLatitudeDestination < -90) {
-//     $minLatitudeDestination = -90;
-// }
-// if ($maxLatitudeDestination > 90) {
-//     $maxLatitudeDestination = 90;
-// }
 
 // Check departure
 if (!$departure) {
@@ -105,36 +42,7 @@ if ($errors) {
     exit;
 }
 
-// Get all available trips in the carsharetrips table
-// $myArray = [
-//     $minLongitudeDeparture < $maxLongitudeDeparture,
-//     $minLatitudeDeparture < $maxLatitudeDeparture,
-//     $minLongitudeDestination < $maxLongitudeDestination,
-//     $minLatitudeDestination < $maxLatitudeDestination
-// ];
 
-// $queryChoice1 = [
-//     " (departureLongitude BETWEEN $minLongitudeDeparture AND $maxLongitudeDeparture)",
-//     " AND (departureLatitude BETWEEN $minLatitudeDeparture AND $maxLatitudeDeparture)",
-//     " AND (destinationLongitude BETWEEN $minLongitudeDestination AND $maxLongitudeDestination)",
-//     " AND (destinationLatitude BETWEEN $minLatitudeDestination AND $maxLatitudeDestination)"
-// ];
-
-// $queryChoice2 = [
-//     " ((departureLongitude > $minLongitudeDeparture) OR (departureLongitude < $maxLongitudeDeparture))",
-//     " AND (departureLatitude BETWEEN $minLatitudeDeparture AND $maxLatitudeDeparture)",
-//     " AND ((destinationLongitude > $minLongitudeDestination) OR (destinationLongitude < $maxLongitudeDestination))",
-//     " AND (destinationLatitude BETWEEN $minLatitudeDestination AND $maxLatitudeDestination)"
-// ];
-
-// $queryChoices = [$queryChoice2, $queryChoice1];
-
-// $sql = "SELECT * FROM carsharetrips WHERE ";
-
-// for ($value = 0; $value < 4; $value++) {
-//     $index = $myArray[$value];
-//     $sql .= $queryChoices[$index][$value];
-// }
 $sql = "SELECT * FROM carsharetrips WHERE departure='$departure' AND destination='$destination'";
 $result = mysqli_query($link, $sql);
 if (!$result) {
@@ -157,6 +65,11 @@ while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
 {
 
     // Check if the trip date is in the past
+    if ($row['seatsavailable'] <= 0) {
+        echo "<div class='alert alert-info noresults'>There are no journeys matching your search!</div>";
+        exit;
+    }
+
     $dateOK = 1;
     if ($row['regular'] == "N") {
         $source = $row['date'];

@@ -106,49 +106,46 @@ include('remember.php');
             $index=0;
             while( $row = mysqli_fetch_array($result))
             {
+                
                 $request_id = $row['request_id'];
                 $passenger_id = $row['user_id'];
+                $status = $row['status'];
+                
                 $name_query="SELECT `user_id`, `first_name`, `last_name` FROM `users` WHERE user_id='$passenger_id'";
                 $name_result = mysqli_query($link, $name_query);
                 $name_result = mysqli_fetch_array($name_result);
                 $notifications = [
                     $name_result['first_name']." ".$name_result['last_name']." has requested to join your trip."
                 ];
-                echo '<div class="notification">';
-                echo '<span class="notification-text">' . $notifications[0] . '</span>';
-                echo '<button onclick="acceptNotification(' . $index . ', ' . $request_id . ')" class="accept-button">Accept</button>';
-                echo '<button onclick="deleteNotification(' . $index . ', ' . $request_id . ')" class="delete-button">Delete</button>';
-                echo '</div>';
+                if($status=='pending')
+                {
+                    echo '<div class="notification">';
+                    echo '<span class="notification-text">' . $notifications[0] . '</span>';
+                    echo '<button onclick="acceptNotification(' . $index . ', ' . $request_id . ')" class="accept-button">Accept</button>';
+                    echo '<button onclick="deleteNotification(' . $index . ', ' . $request_id . ')" class="delete-button">Delete</button>';
+                    echo '</div>';
+
+                }
+                else if($status=='accepted')
+                {
+                    echo '<div class="notification">';
+                    echo '<span class="notification-text">' . $notifications[0] . '</span>';
+                    echo '<button class="accept-button">'.ucwords($status).'</button>';
+                    echo '</div>';
+                }
+
                 $index =$index+1;
 
             }
 
 
-// write a code to fetch data from database
-        
-
-            // Check if a notification is set and display it
-            // if (isset($_SESSION['notification'])) {
-            //     echo '<div class="notification">' . $_SESSION['notification'] . '</div>';
-            //     unset($_SESSION['notification']); // Clear the session-based notification
-            // }
-
-            // Display the example notifications with "Accept" and "Delete" buttons
-            // foreach ($notifications as $index => $notification) {
-            //     echo '<div class="notification">';
-            //     echo '<span class="notification-text">' . $notification . '</span>';
-            //     echo '<button onclick="acceptNotification(' . $index . ')" class="accept-button">Accept</button>';
-            //     echo '<button onclick="deleteNotification(' . $index . ')" class="delete-button">Delete</button>';
-            //     echo '</div>';
-            // }
             ?>
         </div>
     </div>
 
     <script>
         function acceptNotification(index,request_id) {
-            // Implement your logic to accept the notification
-            // For now, we'll just hide the notification on the client-side
+ 
             const notificationDiv = document.querySelectorAll('.notification')[index];
             const acpt_btn = document.querySelectorAll(".accept-button")[index];
             const del_btn = document.querySelectorAll(".delete-button")[index];
@@ -169,6 +166,11 @@ include('remember.php');
             // For now, we'll just hide the notification on the client-side
             const notificationDiv = document.querySelectorAll('.notification')[index];
             notificationDiv.style.display = 'none';
+
+            $.post(`request_query.php?action=deleteRequest&request_id=${request_id}`, function(res){
+                alert(res)
+                
+            })
         }
     </script>
 </body>

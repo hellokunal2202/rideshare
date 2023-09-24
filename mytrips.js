@@ -45,7 +45,32 @@ $(function(){
             }
         }
     }); 
+  
+        // Listen for the form submission
+        $('#verifyform').submit(function(event) {
+            // Prevent the default form submission
+            event.preventDefault();
     
+            // Serialize the form data into a format that can be sent via AJAX
+            var formData = $(this).serializeArray();
+    console.log(formData);
+            // Perform the AJAX request
+            $.ajax({
+                type: 'POST',
+                url: 'verified.php', // Replace with the correct URL for verified.php
+                data: formData,
+                success: function(response) {
+                    // Handle the response from the PHP filelo
+                    $('#result3').html(response);
+                },
+                error: function() {
+                    // Handle any errors that occur during the AJAX request
+                  
+                    $('#result3').html(response);
+                }
+            });
+        });
+   
     // Click on Create Trip Button
         $('#addtripform').submit(function(event){
             $("#result").hide();
